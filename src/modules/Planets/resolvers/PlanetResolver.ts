@@ -7,14 +7,14 @@ import IPlanet from '../entity/IPlanet';
 @Resolver(() => Planet)
 export default class PlanetResolver {
   @Query(() => [Planet], { nullable: true })
-  async suitablePlanets(): Promise<Planet[]> {
-    const planets = await Planet.find();
-
-    return planets;
+  suitablePlanets(): Promise<Planet[]> {
+    // dá de deixar só um pouquinho mais curto
+    return Planet.find();
   }
 
   @Mutation(() => Planet)
   async installStation(@Arg('id') id: number): Promise<IPlanet | ApolloError> {
+    // eu daria o nome: planetToInstall, ou só planet também
     const installPlanet = await Planet.findOne({ id });
 
     if (!installPlanet) {
@@ -22,13 +22,12 @@ export default class PlanetResolver {
     }
 
     if (installPlanet.hasStation === true) {
+      // hahaha, boa mensagem de erro
       return new ApolloError('Houston. This planet already has station. :/');
     }
 
     installPlanet.hasStation = true;
 
-    await Planet.save(installPlanet);
-
-    return installPlanet;
+    return await Planet.save(installPlanet);
   }
 }

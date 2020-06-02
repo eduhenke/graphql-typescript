@@ -1,3 +1,4 @@
+// pra que é usado esse arquivo?
 import IPlanet from './entity/IPlanet';
 
 export const planets: IPlanet[] = [
